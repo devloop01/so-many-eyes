@@ -1,8 +1,9 @@
-console.clear();
+console.clear()
 
-import Gl from "./Gl";
+import Gl from './Gl'
 
-import "../css/index.css";
+import '../css/index.css'
 
-const app = new Gl();
-app.init();
+const app = new Gl()
+app.init()
+
