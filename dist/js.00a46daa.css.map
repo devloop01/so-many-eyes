@@ -1,1 +1,0 @@
-{"version":3,"sources":["css/index.css"],"names":[],"mappings":"AAAA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA","file":"js.00a46daa.css","sourceRoot":"..\\src","sourcesContent":["* {\n\tbox-sizing: border-box;\n\tmargin: 0;\n\tpadding: 0;\n}\n\nbody {\n\twidth: 100%;\n\theight: 100vh;\n\toverflow: hidden;\n}\n"]}
