@@ -1,9 +1,0 @@
-{
-	"extends": "@parcel/config-default",
-	"transformers": {
-		"*.{zip,tgz,glb}": [
-			"@parcel/transformer-raw"
-		]
-	}
-}
-

@@ -1,8 +1,6 @@
-console.clear()
+import './style.css'
 
 import Gl from './Gl'
-
-import '../css/index.css'
 
 const app = new Gl()
 app.init()

@@ -1,26 +1,24 @@
 {
 	"name": "so-many-eyes",
+	"type": "module",
 	"version": "1.0.0",
 	"description": "A demo of a bunch of eyes looking at the mouse",
 	"browserslist": "> 0.5%, last 2 versions, not dead",
 	"source": "src/index.html",
 	"scripts": {
-		"dev": "parcel",
-		"clean": "rimraf dist/",
-		"build:parcel": "parcel build --no-source-maps",
-		"build": "pnpm clean && pnpm build:parcel"
+		"dev": "vite",
+		"build": "vite build",
+		"preview": "vite preview"
 	},
 	"author": "Sikrit Dakua",
 	"license": "ISC",
 	"dependencies": {
-		"gsap": "^3.5.0",
-		"three": "^0.157.0"
+		"gsap": "^3.12.3",
+		"three": "^0.159.0"
 	},
 	"devDependencies": {
-		"@parcel/config-default": "^2.10.0",
-		"@parcel/transformer-raw": "^2.10.0",
-		"parcel": "^2.10.0",
-		"rimraf": "^5.0.5"
+		"@types/three": "^0.159.0",
+		"vite": "^5.0.8"
 	}
 }
 
