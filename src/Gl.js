@@ -18,7 +18,6 @@ import {
 import gsap from 'gsap'
 
 import Eye from './Eye'
-import eyeGLTF from './assets/models/eye_model.glb'
 import { loadGLTF } from './utils'
 
 const DEV = import.meta.env.DEV
@@ -63,7 +62,7 @@ export default class Gl {
 		this.render()
 		this.initEvents()
 
-		loadGLTF(eyeGLTF)
+		loadGLTF('/models/eye_model.glb')
 			.then((gltf) => {
 				const model = gltf.scene.children[0]
 				model.scale.setScalar(0.5)

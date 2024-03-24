@@ -1,5 +1,4 @@
 import { defineConfig } from 'vite'
 
-export default defineConfig({
-	assetsInclude: ['**/*.glb', '**/*.gltf']
-})
+export default defineConfig({})
+
