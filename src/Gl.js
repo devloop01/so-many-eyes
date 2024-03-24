@@ -15,13 +15,13 @@ import {
 	ReinhardToneMapping,
 	SRGBColorSpace
 } from 'three'
+import gsap from 'gsap'
 
 import Eye from './Eye'
-import eyeGLTF from '../../assets/models/eye_model.glb'
-
+import eyeGLTF from './assets/models/eye_model.glb'
 import { loadGLTF } from './utils'
 
-import gsap from 'gsap'
+const DEV = import.meta.env.DEV
 
 const CAMERA_Z = 12
 
@@ -29,7 +29,7 @@ const INTERSECTION_PLANE_Z = 1.8
 const INTERSECTION_PLANE_SIZE = CAMERA_Z * 2
 
 const EYE_AMOUNT = 5 // minimun 2
-const EYE_GAP = 5
+const EYE_GAP = EYE_AMOUNT
 
 const POSITION_OFFSET_FACTOR = 0.8
 
@@ -37,8 +37,10 @@ const BACKGROUND_COLOR = '#54b3d1'
 
 export default class Gl {
 	constructor() {
-		this.width = window.innerWidth
-		this.height = window.innerHeight
+		this.screen = {
+			width: window.innerWidth,
+			height: window.innerHeight
+		}
 
 		this.raycaster = new Raycaster()
 
@@ -47,9 +49,9 @@ export default class Gl {
 
 		this.mouse3d = new Vector3()
 
-		this.animationComplete = false
+		this.animationComplete = true
 
-		this.mouseLerpAmount = 0.175
+		this.mouseLerpAmount = 0.125
 	}
 
 	init() {
@@ -78,7 +80,7 @@ export default class Gl {
 			.then((model) => {
 				this.eyeModel = model
 				this.addEyes()
-				this.initAnimation()
+				!DEV && this.initAnimation()
 			})
 			.catch((url) => console.error(`Error loading from ${url}`))
 	}
@@ -91,7 +93,7 @@ export default class Gl {
 	createRenderer() {
 		this.renderer = new WebGLRenderer({ antialias: true })
 		this.renderer.setPixelRatio(window.devicePixelRatio)
-		this.renderer.setSize(this.width, this.height)
+		this.renderer.setSize(this.screen.width, this.screen.height)
 		this.renderer.outputColorSpace = SRGBColorSpace
 		this.renderer.toneMapping = ReinhardToneMapping
 		this.renderer.toneMappingExposure = 2
@@ -100,7 +102,7 @@ export default class Gl {
 	}
 
 	createCamera() {
-		this.camera = new PerspectiveCamera(50, this.width / this.height, 0.1, 100)
+		this.camera = new PerspectiveCamera(50, this.screen.width / this.screen.height, 0.1, 100)
 		this.camera.position.set(0, 0, CAMERA_Z)
 		this.camera.lookAt(new Vector3())
 
@@ -158,18 +160,20 @@ export default class Gl {
 		}
 
 		const onResize = () => {
-			this.width = window.innerWidth
-			this.height = window.innerHeight
+			this.screen = {
+				width: window.innerWidth,
+				height: window.innerHeight
+			}
 
-			this.camera.aspect = this.width / this.height
+			this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+			this.renderer.setSize(this.screen.width, this.screen.height)
+
+			this.camera.aspect = this.screen.width / this.screen.height
 			this.camera.updateProjectionMatrix()
-
-			this.renderer.setPixelRatio(window.devicePixelRatio)
-			this.renderer.setSize(this.width, this.height)
 		}
 
-		window.addEventListener('resize', onResize, { passive: true })
-		window.addEventListener('mousemove', onMouseMove, false)
+		window.addEventListener('resize', onResize)
+		window.addEventListener('mousemove', onMouseMove)
 	}
 
 	initAnimation() {
@@ -181,6 +185,7 @@ export default class Gl {
 				duration: 0.8,
 				ease: 'elastic.out(1, 1)'
 			},
+			onStart: () => (this.animationComplete = false),
 			onUpdate: () => {
 				this.eyes.forEach((eye) => {
 					eye.eyeGroup.lookAt(new Vector3(0, 0, INTERSECTION_PLANE_Z))
