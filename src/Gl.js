@@ -165,15 +165,15 @@ export default class Gl {
 				height: window.innerHeight
 			}
 
-			this.renderer.setPixelRatio(window.devicePixelRatio)
+			this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 			this.renderer.setSize(this.screen.width, this.screen.height)
 
 			this.camera.aspect = this.screen.width / this.screen.height
 			this.camera.updateProjectionMatrix()
 		}
 
-		window.addEventListener('resize', onResize, { passive: true })
-		window.addEventListener('mousemove', onMouseMove, false)
+		window.addEventListener('resize', onResize)
+		window.addEventListener('mousemove', onMouseMove)
 	}
 
 	initAnimation() {
